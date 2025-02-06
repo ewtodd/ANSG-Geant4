@@ -1,0 +1,86 @@
+/run/numberOfThreads 16
+/run/initialize
+/process/had/rdm/thresholdForVeryLongDecayTime 1.0e+60 year
+/gps/pos/type Point
+/gps/ang/type iso
+/gps/ene/type User
+/gps/hist/type energy
+/gps/hist/point 6.666667e-10 0.001946
+/gps/hist/point 2.000000e-09 0.002831
+/gps/hist/point 3.333333e-09 0.005308
+/gps/hist/point 4.666667e-09 0.008494
+/gps/hist/point 6.000000e-09 0.009142
+/gps/hist/point 7.333333e-09 0.013448
+/gps/hist/point 8.666667e-09 0.014274
+/gps/hist/point 1.000000e-08 0.015395
+/gps/hist/point 1.133333e-08 0.016869
+/gps/hist/point 1.266667e-08 0.019877
+/gps/hist/point 1.400000e-08 0.020762
+/gps/hist/point 1.533333e-08 0.019229
+/gps/hist/point 1.666667e-08 0.019818
+/gps/hist/point 1.800000e-08 0.022650
+/gps/hist/point 1.933333e-08 0.021647
+/gps/hist/point 2.066667e-08 0.021234
+/gps/hist/point 2.200000e-08 0.022826
+/gps/hist/point 2.333333e-08 0.023416
+/gps/hist/point 2.466667e-08 0.021883
+/gps/hist/point 2.600000e-08 0.021057
+/gps/hist/point 2.733333e-08 0.023239
+/gps/hist/point 2.866667e-08 0.022237
+/gps/hist/point 3.000000e-08 0.020880
+/gps/hist/point 3.133333e-08 0.019464
+/gps/hist/point 3.266667e-08 0.022650
+/gps/hist/point 3.400000e-08 0.021175
+/gps/hist/point 3.533333e-08 0.020821
+/gps/hist/point 3.666667e-08 0.020526
+/gps/hist/point 3.800000e-08 0.019818
+/gps/hist/point 3.933333e-08 0.022060
+/gps/hist/point 4.066667e-08 0.019700
+/gps/hist/point 4.200000e-08 0.018639
+/gps/hist/point 4.333333e-08 0.018049
+/gps/hist/point 4.466667e-08 0.017105
+/gps/hist/point 4.600000e-08 0.017341
+/gps/hist/point 4.733333e-08 0.016987
+/gps/hist/point 4.866667e-08 0.017164
+/gps/hist/point 5.000000e-08 0.014864
+/gps/hist/point 5.133333e-08 0.016751
+/gps/hist/point 5.266667e-08 0.012210
+/gps/hist/point 5.400000e-08 0.014274
+/gps/hist/point 5.533333e-08 0.012681
+/gps/hist/point 5.666667e-08 0.013094
+/gps/hist/point 5.800000e-08 0.012563
+/gps/hist/point 5.933333e-08 0.012327
+/gps/hist/point 6.066667e-08 0.012092
+/gps/hist/point 6.200000e-08 0.012504
+/gps/hist/point 6.333333e-08 0.012799
+/gps/hist/point 6.466667e-08 0.010912
+/gps/hist/point 6.600000e-08 0.009791
+/gps/hist/point 6.733333e-08 0.011325
+/gps/hist/point 6.866667e-08 0.009968
+/gps/hist/point 7.000000e-08 0.010204
+/gps/hist/point 7.133333e-08 0.008494
+/gps/hist/point 7.266667e-08 0.009968
+/gps/hist/point 7.400000e-08 0.009142
+/gps/hist/point 7.533333e-08 0.007845
+/gps/hist/point 7.666667e-08 0.007786
+/gps/hist/point 7.800000e-08 0.007314
+/gps/hist/point 7.933333e-08 0.007373
+/gps/hist/point 8.066667e-08 0.007845
+/gps/hist/point 8.200000e-08 0.007314
+/gps/hist/point 8.333333e-08 0.006783
+/gps/hist/point 8.466667e-08 0.006901
+/gps/hist/point 8.600000e-08 0.006252
+/gps/hist/point 8.733333e-08 0.006075
+/gps/hist/point 8.866667e-08 0.005839
+/gps/hist/point 9.000000e-08 0.005426
+/gps/hist/point 9.133333e-08 0.005485
+/gps/hist/point 9.266667e-08 0.005485
+/gps/hist/point 9.400000e-08 0.004365
+/gps/hist/point 9.533333e-08 0.003834
+/gps/hist/point 9.666667e-08 0.003775
+/gps/hist/point 9.800000e-08 0.003421
+/gps/hist/point 9.933333e-08 0.004955
+/gps/hist/inter Lin
+/gps/ene/min 0.01 eV
+/gps/ene/max 0.1 eV
+/run/beamOn 100000
