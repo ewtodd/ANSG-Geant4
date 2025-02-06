@@ -1,3 +1,15 @@
+# Ignore all build folders anywhere in the repository
+**/build/
+
+# Ignore all image files anywhere in the repository
+*.jpg
+*.jpeg
 *.png
+*.gif
+*.bmp
+*.tiff
+*.ico
+*.svg
+*.pdf
 *.root
-*/build/*
+
