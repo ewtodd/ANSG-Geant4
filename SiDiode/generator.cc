@@ -15,15 +15,7 @@ void PrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
 
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0, 0, 1));
 
-  G4double mean_energy = 5486 * keV;
-  G4double resolution = 16.0 / 5486;
-  G4double sigma = mean_energy * resolution;
-
-  // Sample from Gaussian distribution
-  G4double energy;
-  do {
-    energy = G4RandGauss::shoot(mean_energy, sigma);
-  } while (energy <= 0); // Ensure positive energy
+  G4double energy = 5486 * keV;
 
   fParticleGun->SetParticleEnergy(energy);
 

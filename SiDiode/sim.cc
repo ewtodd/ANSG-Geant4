@@ -14,11 +14,8 @@
 #include "G4UImanager.hh"
 #include "G4VisExecutive.hh"
 #include "G4VisManager.hh"
-#include "TROOT.h"
 
 int main(int argc, char **argv) {
-  // Enable ROOT thread safety - add this at the start of main
-  ROOT::EnableThreadSafety();
 #ifdef G4MULTITHREADED
   G4MTRunManager *runManager = new G4MTRunManager();
 #else

@@ -21,9 +21,9 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
   G4double thick = fThick;
 
   //  make the germanium sample
-  // G4Box *solidGe = new G4Box("solidGe", thick, len_wid, len_wid);
-  G4Tubs *solidGe =
-      new G4Tubs("solidGe", 0., radius, halfHeight, 0 * deg, 360 * deg);
+  G4Box *solidGe = new G4Box("solidGe", thick, len_wid, len_wid);
+  // G4Tubs *solidGe =
+  // new G4Tubs("solidGe", 0., radius, halfHeight, 0 * deg, 360 * deg);
 
   // get the volume of the sample
   G4cout << "Volume of the Germanium target: "
@@ -31,12 +31,12 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
 
   G4double airThickness = 2.5 * mm; // Thickness of the air layer around Ge
   //  make the air layer surrounding the germanium sample
-  // G4Box *solidAirLayer =
-  //  new G4Box("solidAirLayer", (thick + airThickness),
-  //           (len_wid + airThickness), (len_wid + airThickness));
-  G4Tubs *solidAirLayer =
-      new G4Tubs("solidAir", 0., radius + airThickness,
-                 halfHeight + airThickness, 0 * deg, 360 * deg);
+  G4Box *solidAirLayer =
+      new G4Box("solidAirLayer", (thick + airThickness),
+                (len_wid + airThickness), (len_wid + airThickness));
+  // G4Tubs *solidAirLayer =
+  //   new G4Tubs("solidAir", 0., radius + airThickness,
+  //            halfHeight + airThickness, 0 * deg, 360 * deg);
 
   G4LogicalVolume *logicWorld =
       new G4LogicalVolume(solidWorld, worldMat, "logicWorld");

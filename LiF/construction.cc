@@ -17,11 +17,9 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
 
   // Define moderator material
   G4Material *moderatorMaterial = nist->FindOrBuildMaterial("G4_POLYETHYLENE");
-  // nist->FindOrBuildMaterial("G4_POLYETHYLENE");
-  // Define dimensions of the moderator slab
   G4double modBoxHalfX = 50 * cm;
   G4double modBoxHalfY = 50 * cm;
-  G4double modBoxHalfZ = (10.0 / 2) * cm;
+  G4double modBoxHalfZ = (12.0 / 2) * cm;
 
   G4double offset = 10 * cm;
 

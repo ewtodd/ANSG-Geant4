@@ -30,7 +30,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
   G4RotationMatrix *rotationMatrix = new G4RotationMatrix();
   rotationMatrix->rotateY(60. * deg);
   G4VPhysicalVolume *physDet =
-      new G4PVPlacement(rotationMatrix, G4ThreeVector(0., 0., 4 * cm),
+      new G4PVPlacement(rotationMatrix, G4ThreeVector(0., 0., 2.54 * cm),
                         logicDetector, "physDet", logicWorld, false, 0, true);
 
   return physWorld;

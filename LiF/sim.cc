@@ -2,8 +2,8 @@
 #include "construction.hh"
 
 // include physics files
+#include "QGSP_BIC_HP.hh"
 #include "physics.hh"
-
 // include actions
 #include "action.hh"
 
@@ -22,16 +22,8 @@ int main(int argc, char **argv) {
 #else
   G4RunManager *runManager = new G4RunManager();
 #endif
-
-  G4double len_wid = (10.0 / 2) * cm;
-  G4double thick = (0.5 / 2) * cm;
-
-  if (argc > 1) {
-    thick = std::stod(argv[1]) / 2 * cm;
-    len_wid = std::stod(argv[2]) / 2 * cm;
-  }
+  runManager->SetUserInitialization(new DetectorConstruction());
   runManager->SetUserInitialization(new PhysicsList());
-  runManager->SetUserInitialization(new DetectorConstruction(thick, len_wid));
   runManager->SetUserInitialization(new ActionInitialization());
 
   G4UIExecutive *ui = 0;
@@ -62,10 +54,9 @@ int main(int argc, char **argv) {
     delete ui;
   } else {
     G4String command = "/control/execute ";
-    G4String fileName = argv[3];
+    G4String fileName = argv[1];
     uiManager->ApplyCommand(command + fileName);
   }
-
   delete visManager;
   delete runManager;
 

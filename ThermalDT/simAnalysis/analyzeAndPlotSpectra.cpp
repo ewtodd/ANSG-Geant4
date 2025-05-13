@@ -27,7 +27,7 @@ void analyzeAndPlotSpectra() {
   // Function to process ROOT files and extract thermal counts
   auto processFiles = [&](const std::string &material,
                           std::vector<double> &thermalCounts) {
-    for (int thickness = 5; thickness <= 20; thickness += 1) {
+    for (int thickness = 10; thickness <= 17; thickness += 1) {
       // Create the filename
       std::ostringstream filename;
       filename << "../" << material << thickness << "cm.root";
