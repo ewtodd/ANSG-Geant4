@@ -1,6 +1,9 @@
 #include "event.hh"
 
-EventAction::EventAction(RunAction *) { fEdep = 0.; }
+EventAction::EventAction(RunAction *) {
+  fEdepLaBr3 = fEdepCeBr3 = 0.;
+  fTimeLaBr3 = fTimeCeBr3 = -1.;
+}
 EventAction::~EventAction() {}
 
 void EventAction::BeginOfEventAction(const G4Event *) {
