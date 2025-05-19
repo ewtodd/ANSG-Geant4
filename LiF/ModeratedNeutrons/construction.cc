@@ -17,7 +17,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
       0, G4ThreeVector(0., 0., 0.), logicWorld, "physWorld", 0, false, 0, true);
 
   // Define moderator material
-  G4Material *moderatorMaterial = nist->FindOrBuildMaterial("G4_POLYETHYLENE");
+  G4Material *moderatorMaterial = nist->FindOrBuildMaterial("G4_AIR");
 
   // G4Element *C = nist->FindOrBuildElement("C");
   // G4Material *moderatorMaterial =
