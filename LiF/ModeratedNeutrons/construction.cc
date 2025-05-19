@@ -45,7 +45,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
   G4VPhysicalVolume *physLiF = new G4PVPlacement(
       0,
       G4ThreeVector(0, 0,
-                    modBoxHalfZ + offset + 5 * cm), // Relative to AirShell
+                    modBoxHalfZ + offset + 10 * cm), // Relative to AirShell
       logicLiF, "LiF",
       logicWorld, // Mother volume
       false, 0, true);
@@ -64,7 +64,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
   G4VPhysicalVolume *physLaBr3 =
       new G4PVPlacement(0,
                         G4ThreeVector(0, (1.5 * inch) / 2 + halfcm + inch,
-                                      modBoxHalfZ + offset + 5 * cm),
+                                      modBoxHalfZ + offset + 10 * cm),
                         fScoringVolume, "LaBr3", logicWorld, false, 0, true);
   // Visualization attributes
   G4VisAttributes *liFVis =
