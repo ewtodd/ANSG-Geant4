@@ -17,7 +17,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
       0, G4ThreeVector(0., 0., 0.), logicWorld, "physWorld", 0, false, 0, true);
 
   // Define moderator material
-  G4Material *moderatorMaterial = nist->FindOrBuildMaterial("G4_AIR");
+  G4Material *moderatorMaterial = nist->FindOrBuildMaterial("G4_POLYETHYLENE");
 
   // G4Element *C = nist->FindOrBuildElement("C");
   // G4Material *moderatorMaterial =
@@ -43,7 +43,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
       new G4PVPlacement(0, G4ThreeVector(0., 0., modBoxHalfZ + offset),
                         logicModBox, "ModBox", logicWorld, false, 0, true);
 
-  G4Material *LiF = nist->FindOrBuildMaterial("G4_Li");
+  G4Material *LiF = nist->FindOrBuildMaterial("G4_LITHIUM_FLUORIDE");
 
   G4Box *solidLiF = new G4Box("LiF", 0.5 * cm, 0.5 * cm, 0.5 * cm);
   G4LogicalVolume *logicLiF = new G4LogicalVolume(solidLiF, LiF, "LiF");
@@ -70,11 +70,8 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
   G4VPhysicalVolume *physLiF = new G4PVPlacement(
       0,
       G4ThreeVector(0, 0,
-                    modBoxHalfZ * 2 + offset + (1.5 * inch) / 2 +
-                        0.01 * cm), // Relative to AirShell
-      logicLiF, "LiF",
-      logicWorld, // Mother volume
-      false, 0, true);
+                    modBoxHalfZ * 2 + offset + (1.5 * inch) / 2 + 0.01 * cm),
+      logicLiF, "LiF", logicWorld, false, 0, true);
 
   G4VPhysicalVolume *physLaBr3 = new G4PVPlacement(
       0,

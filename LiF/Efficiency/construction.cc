@@ -16,7 +16,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
   G4VPhysicalVolume *physWorld = new G4PVPlacement(
       0, G4ThreeVector(), logicWorld, "World", 0, false, 0, true);
 
-  G4Material *LiF = nist->FindOrBuildMaterial("G4_Li");
+  G4Material *LiF = nist->FindOrBuildMaterial("G4_LITHIUM_FLUORIDE");
 
   G4Box *solidLiF = new G4Box("LiF", 0.5 * cm, 0.5 * cm, 0.5 * cm);
   G4LogicalVolume *logicLiF = new G4LogicalVolume(solidLiF, LiF, "LiF");
