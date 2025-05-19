@@ -10,7 +10,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
   G4Material *worldMat = nist->FindOrBuildMaterial("G4_AIR");
 
   // Create world volume
-  G4Box *solidWorld = new G4Box("solidWorld", 5.0 * m, 5.0 * m, 5.0 * m);
+  G4Box *solidWorld = new G4Box("solidWorld", 1.0 * m, 1.0 * m, 1.0 * m);
   G4LogicalVolume *logicWorld =
       new G4LogicalVolume(solidWorld, worldMat, "logicWorld");
   G4VPhysicalVolume *physWorld = new G4PVPlacement(
@@ -18,8 +18,8 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
 
   // Define moderator material
   G4Material *moderatorMaterial = nist->FindOrBuildMaterial("G4_POLYETHYLENE");
-  G4double modBoxHalfX = 50 * cm;
-  G4double modBoxHalfY = 50 * cm;
+  G4double modBoxHalfX = 25 * cm;
+  G4double modBoxHalfY = 25 * cm;
   G4double modBoxHalfZ = (8.0 / 2) * cm;
 
   G4double offset = 10 * cm;
@@ -42,11 +42,13 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
   G4Box *solidLiF = new G4Box("LiF", 0.5 * cm, 0.5 * cm, 0.5 * cm);
   G4LogicalVolume *logicLiF = new G4LogicalVolume(solidLiF, LiF, "LiF");
 
-  G4VPhysicalVolume *physLiF =
-      new G4PVPlacement(0, G4ThreeVector(0, 0, 15 * cm), // Relative to AirShell
-                        logicLiF, "LiF",
-                        logicWorld, // Mother volume
-                        false, 0, true);
+  G4VPhysicalVolume *physLiF = new G4PVPlacement(
+      0,
+      G4ThreeVector(0, 0,
+                    modBoxHalfZ + offset + 5 * cm), // Relative to AirShell
+      logicLiF, "LiF",
+      logicWorld, // Mother volume
+      false, 0, true);
 
   G4Element *La = nist->FindOrBuildElement("La");
   G4Element *Br = nist->FindOrBuildElement("Br");
@@ -59,9 +61,11 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
 
   fScoringVolume = new G4LogicalVolume(solidLaBr3, LaBr3, "LaBr3");
   G4double halfcm = 0.5 * cm;
-  G4VPhysicalVolume *physLaBr3 = new G4PVPlacement(
-      0, G4ThreeVector(0, (1.5 * inch) / 2 + halfcm + inch, 15 * cm),
-      fScoringVolume, "LaBr3", logicWorld, false, 0, true);
+  G4VPhysicalVolume *physLaBr3 =
+      new G4PVPlacement(0,
+                        G4ThreeVector(0, (1.5 * inch) / 2 + halfcm + inch,
+                                      modBoxHalfZ + offset + 5 * cm),
+                        fScoringVolume, "LaBr3", logicWorld, false, 0, true);
   // Visualization attributes
   G4VisAttributes *liFVis =
       new G4VisAttributes(G4Colour(0.8, 0.8, 0.0)); // Yellow
