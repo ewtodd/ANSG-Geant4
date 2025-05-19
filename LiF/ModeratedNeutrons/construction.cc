@@ -18,6 +18,12 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
 
   // Define moderator material
   G4Material *moderatorMaterial = nist->FindOrBuildMaterial("G4_POLYETHYLENE");
+
+  // G4Element *C = nist->FindOrBuildElement("C");
+  // G4Material *moderatorMaterial =
+  //    new G4Material("MyGraphite", 10 * 2.18 * g / cm3, 1);
+  // moderatorMaterial->AddElement(C, 1.0);
+  //  Use customGraphite instead of G4_GRAPHITE
   G4double modBoxHalfX = 15 * cm;
   G4double modBoxHalfY = 15 * cm;
   G4double modBoxHalfZ = (8.0 / 2) * cm;
@@ -42,21 +48,30 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
   G4Box *solidLiF = new G4Box("LiF", 0.5 * cm, 0.5 * cm, 0.5 * cm);
   G4LogicalVolume *logicLiF = new G4LogicalVolume(solidLiF, LiF, "LiF");
 
-  G4Element *La = nist->FindOrBuildElement("La");
-  G4Element *Br = nist->FindOrBuildElement("Br");
-  G4Material *LaBr3 = new G4Material("LaBr3", 5.29 * g / cm3, 2);
-  LaBr3->AddElement(La, 1);
-  LaBr3->AddElement(Br, 3);
+  G4Material *LaBr3 = new G4Material("LaBr3Ce", 5.08 * g / cm3, 3);
+  LaBr3->AddElement(nist->FindOrBuildElement("Br"), 0.640569);
+  LaBr3->AddElement(nist->FindOrBuildElement("La"), 0.357575);
+  LaBr3->AddElement(nist->FindOrBuildElement("Ce"), 0.001856);
   G4double inch = 2.54 * cm;
   G4Tubs *solidLaBr3 =
       new G4Tubs("LaBr3", 0, 1.5 * inch / 2, 1.5 * inch / 2, 0, 360 * deg);
 
-  fScoringVolume = new G4LogicalVolume(solidLaBr3, LaBr3, "LaBr3");
+  fScoringVolumeLaBr3 = new G4LogicalVolume(solidLaBr3, LaBr3, "LaBr3");
+
+  G4Material *CeBr3 = new G4Material("CeBr3", 5.2 * g / cm3, 2);
+  CeBr3->AddElement(nist->FindOrBuildElement("Ce"), 0.36893); // 36.893% cerium
+  CeBr3->AddElement(nist->FindOrBuildElement("Br"), 0.63107); // 63.107% bromine
+
+  G4Tubs *solidCeBr3 =
+      new G4Tubs("CeBr3", 0, 1 * inch / 2, 1 * inch / 2, 0, 360 * deg);
+  fScoringVolumeCeBr3 = new G4LogicalVolume(solidCeBr3, CeBr3, "CeBr3");
+
   G4double halfcm = 0.5 * cm;
   G4VPhysicalVolume *physLiF = new G4PVPlacement(
       0,
       G4ThreeVector(0, 0,
-                    modBoxHalfZ*2 + offset+ (1.5 * inch)/2 + 0.01*cm), // Relative to AirShell
+                    modBoxHalfZ * 2 + offset + (1.5 * inch) / 2 +
+                        0.01 * cm), // Relative to AirShell
       logicLiF, "LiF",
       logicWorld, // Mother volume
       false, 0, true);
@@ -64,8 +79,14 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
   G4VPhysicalVolume *physLaBr3 = new G4PVPlacement(
       0,
       G4ThreeVector(0, (1.5 * inch) / 2 + halfcm + inch,
-                    modBoxHalfZ*2 + offset + (1.5 * inch)/2 + 0.01*cm),
-      fScoringVolume, "LaBr3", logicWorld, false, 0, true);
+                    modBoxHalfZ * 2 + offset + (1.5 * inch) / 2 + 0.01 * cm),
+      fScoringVolumeLaBr3, "LaBr3", logicWorld, false, 0, true);
+  G4VPhysicalVolume *physCeBr3 = new G4PVPlacement(
+      0,
+      G4ThreeVector(0, -((1 * inch) / 2 + halfcm + inch),
+                    modBoxHalfZ * 2 + offset + (1.5 * inch) / 2 + 0.01 * cm),
+      fScoringVolumeCeBr3, "CeBr3", logicWorld, false, 0, true);
+
   // Visualization attributes
   G4VisAttributes *liFVis =
       new G4VisAttributes(G4Colour(0.8, 0.8, 0.0)); // Yellow
@@ -76,6 +97,9 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
 
 void DetectorConstruction::ConstructSDandField() {
   // LaBr3 sensitive detector
-  SensitiveDetector *SD = new SensitiveDetector("LaBr3");
-  fScoringVolume->SetSensitiveDetector(SD);
+  SensitiveDetector *LaBr3SD = new SensitiveDetector("LaBr3");
+  fScoringVolumeLaBr3->SetSensitiveDetector(LaBr3SD);
+  // LaBr3 sensitive detector
+  SensitiveDetector *CeBr3SD = new SensitiveDetector("CeBr3");
+  fScoringVolumeCeBr3->SetSensitiveDetector(CeBr3SD);
 }
