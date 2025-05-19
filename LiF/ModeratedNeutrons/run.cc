@@ -3,19 +3,9 @@
 RunAction::RunAction() {
   G4AnalysisManager *man = G4AnalysisManager::Instance();
 
-  man->CreateNtuple("PreEnergy", "PreEnergy");
-  man->CreateNtupleDColumn("GammaEnergies");
-  man->CreateNtupleDColumn("OtherEnergies");
+  man->CreateNtuple("EnergyDep", "EnergyDep");
+  man->CreateNtupleDColumn("fEDep");
   man->FinishNtuple(0);
-
-  man->CreateNtuple("NaI", "NaI");
-  man->CreateNtupleDColumn("TotalEdep");
-  man->FinishNtuple(1);
-
-  man->CreateNtuple("NaIEntries", "NaIEntries");
-  man->CreateNtupleDColumn("GammaEnergies");
-  man->CreateNtupleDColumn("OtherEnergies");
-  man->FinishNtuple(2);
 }
 RunAction::~RunAction() {}
 void RunAction::BeginOfRunAction(const G4Run *run) {

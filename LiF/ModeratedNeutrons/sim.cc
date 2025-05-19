@@ -5,7 +5,6 @@
 #include "QGSP_BIC_HP.hh"
 #include "physics.hh"
 // include actions
-#include "G4HadronicProcessStore.hh"
 #include "action.hh"
 
 // skeleton files

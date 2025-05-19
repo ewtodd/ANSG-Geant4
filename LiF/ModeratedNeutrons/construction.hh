@@ -19,12 +19,11 @@ class DetectorConstruction : public G4VUserDetectorConstruction {
 public:
   DetectorConstruction();
   ~DetectorConstruction();
-  G4LogicalVolume *GetScoringVolume() const { return fScoringVolumeNaI; };
+  G4LogicalVolume *GetScoringVolume() const { return fScoringVolume; };
   virtual G4VPhysicalVolume *Construct();
 
 private:
-  G4LogicalVolume *fScoringVolumeShell;
-  G4LogicalVolume *fScoringVolumeNaI;
+  G4LogicalVolume *fScoringVolume;
   virtual void ConstructSDandField();
 };
 
