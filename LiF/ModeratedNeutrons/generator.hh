@@ -1,6 +1,7 @@
 #ifndef GENERATOR_HH
 #define GENERATOR_HH
 
+#include "G4Gamma.hh"
 #include "G4Neutron.hh"
 #include "G4ParticleGun.hh"
 #include "G4ParticleTable.hh"

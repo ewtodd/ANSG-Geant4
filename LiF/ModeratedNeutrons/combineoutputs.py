@@ -24,7 +24,7 @@ def combine_root_files(output_file, input_files):
     print(f"Combined {len(input_files)} ROOT files into {output_file}")
 
 # List of input ROOT files (one for each thread)
-input_files = [f'build/output0_t{i}.root' for i in range(32)]
+input_files = [f'build/output0_t{i}.root' for i in range(8)]
 
 # Output ROOT file
 if (len(sys.argv) != 1):
