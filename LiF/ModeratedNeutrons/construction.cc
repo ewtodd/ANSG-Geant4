@@ -22,7 +22,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
   G4double modBoxHalfY = 25 * cm;
   G4double modBoxHalfZ = (8.0 / 2) * cm;
 
-  G4double offset = 10 * cm;
+  G4double offset = 1 * cm;
 
   // Create the moderator box
   G4Box *modBox = new G4Box("ModBox", modBoxHalfX, modBoxHalfY, modBoxHalfZ);
