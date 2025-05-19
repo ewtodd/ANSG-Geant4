@@ -1,9 +1,11 @@
 #include "generator.hh"
+#include "G4Positron.hh"
 
 PrimaryGenerator::PrimaryGenerator() {
   G4int numParticles = 1;
   fParticleGun = new G4ParticleGun(numParticles);
-  fParticleGun->SetParticleDefinition(G4Neutron::Neutron());
+  // fParticleGun->SetParticleDefinition(G4Neutron::Neutron());
+  fParticleGun->SetParticleDefinition(G4Positron::Definition());
 }
 
 PrimaryGenerator::~PrimaryGenerator() { delete fParticleGun; }
@@ -24,10 +26,12 @@ G4double PrimaryGenerator::SampleCf252Spectrum() {
 }
 
 void PrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
-  fParticleGun->SetParticlePosition(G4ThreeVector(0, 0, 0));
-  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0, 0, 1));
+  G4double lifZPos = 12.63 * cm; // LiF's Z-position from your geometry
+  fParticleGun->SetParticlePosition(G4ThreeVector(0, 0, lifZPos));
+  fParticleGun->SetParticleMomentumDirection(G4RandomDirection());
   // Sample energy from Cf-252 spectrum
   G4double energy = SampleCf252Spectrum();
+  energy = 1 * MeV;
   fParticleGun->SetParticleEnergy(energy);
 
   fParticleGun->GeneratePrimaryVertex(anEvent);
