@@ -10,7 +10,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
   G4Material *worldMat = nist->FindOrBuildMaterial("G4_AIR");
 
   // Create world volume
-  G4Box *solidWorld = new G4Box("solidWorld", 0.2 * m, 0.2 * m, 0.2 * m);
+  G4Box *solidWorld = new G4Box("solidWorld", 0.15 * m, 0.15 * m, 0.15 * m);
   G4LogicalVolume *logicWorld =
       new G4LogicalVolume(solidWorld, worldMat, "logicWorld");
   G4VPhysicalVolume *physWorld = new G4PVPlacement(
@@ -44,6 +44,16 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
                         logicModBox, "ModBox", logicWorld, false, 0, true);
 
   G4Material *LiF = nist->FindOrBuildMaterial("G4_LITHIUM_FLUORIDE");
+  // 1. Create the Li-7 isotope
+  // G4Isotope *Li7 = new G4Isotope("Li7", 3, 7, 7.016 * g / mole);
+
+  // 2. Create an element made only of Li-7
+  // G4Element *elLi7 = new G4Element("Lithium7", "Li7", 1);
+  // elLi7->AddIsotope(Li7, 100. * perCent);
+
+  // 3. Create the material (density for solid lithium: 0.534 g/cm3)
+  // G4Material *LiF = new G4Material("Li7", 10 * g / cm3, 1);
+  // LiF->AddElement(elLi7, 1);
 
   G4Box *solidLiF = new G4Box("LiF", 0.5 * cm, 0.5 * cm, 0.5 * cm);
   G4LogicalVolume *logicLiF = new G4LogicalVolume(solidLiF, LiF, "LiF");

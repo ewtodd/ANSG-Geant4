@@ -4,7 +4,7 @@
 PrimaryGenerator::PrimaryGenerator() {
   G4int numParticles = 1;
   fParticleGun = new G4ParticleGun(numParticles);
-  fParticleGun->SetParticleDefinition(G4Positron::Definition());
+  fParticleGun->SetParticleDefinition(G4Neutron::Neutron());
 }
 
 PrimaryGenerator::~PrimaryGenerator() { delete fParticleGun; }
@@ -25,27 +25,11 @@ G4double PrimaryGenerator::SampleCf252Spectrum() {
 }
 
 void PrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
-  G4double lifZPos = 12.63 * cm; // LiF's Z-position from your geometry
-  // fParticleGun->SetParticlePosition(G4ThreeVector(0, 0, lifZPos));
-  // fParticleGun->SetParticleMomentumDirection(G4RandomDirection());
+  fParticleGun->SetParticlePosition(G4ThreeVector(0, 0, 0));
+  fParticleGun->SetParticleMomentumDirection(G4RandomDirection());
   //  Sample energy from Cf-252 spectrum
-  // G4double energy = SampleCf252Spectrum();
-  // fParticleGun->SetParticleEnergy(20 * eV);
+  G4double energy = SampleCf252Spectrum();
+  fParticleGun->SetParticleEnergy(energy);
 
-  // fParticleGun->GeneratePrimaryVertex(anEvent);
-
-  // 1) Gamma #1
-  fParticleGun->SetParticleDefinition(G4Gamma::Definition());
-  fParticleGun->SetParticleEnergy(511 * keV);
-  fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., lifZPos));
-  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., 1., 0.)); // +x
-  fParticleGun->GeneratePrimaryVertex(anEvent);
-
-  // 2) Gamma #2
-  fParticleGun->SetParticleEnergy(511 * keV);
-  // same position or very close:
-  fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., lifZPos));
-  // opposite direction:
-  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., -1., 0.)); // –x
   fParticleGun->GeneratePrimaryVertex(anEvent);
 }
