@@ -1,5 +1,4 @@
 #include "generator.hh"
-#include "G4Positron.hh"
 
 PrimaryGenerator::PrimaryGenerator() {
   G4int numParticles = 1;
@@ -26,7 +25,7 @@ G4double PrimaryGenerator::SampleCf252Spectrum() {
 
 void PrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
   fParticleGun->SetParticlePosition(G4ThreeVector(0, 0, 0));
-  fParticleGun->SetParticleMomentumDirection(G4RandomDirection());
+  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0, 0, 1));
   //  Sample energy from Cf-252 spectrum
   G4double energy = SampleCf252Spectrum();
   fParticleGun->SetParticleEnergy(energy);

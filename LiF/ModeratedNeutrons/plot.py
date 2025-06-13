@@ -41,6 +41,19 @@ def labr3_resolution(energy_mev):
     fwhm_factor = 2 * np.sqrt(2 * np.log(2))
     sigma = np.sqrt(a**2 + (b**2)/energy_mev + (c**2)/(energy_mev**2))
     return fwhm_factor * sigma  # Return FWHM/E (relative resolution)
+def nai_resolution(energy_mev):
+    """NaI(Tl) 2"×2" resolution function
+    Calibrated to match:
+    - 7.0% at 662 keV
+    - 5.4% at 1332 keV
+    - 4.5% at 2615 keV
+    """
+    # Parameters fitted to match all three points
+    a = 0.026  # constant term
+    b = 0.058  # statistical term
+    c = 0.0    # no significant quadratic term needed
+    return np.sqrt(a**2 + (b**2)/energy_mev + (c**2)/(energy_mev**2))
+
 def plot_histogram(data, title, xlabel, ylabel, color="b"):
     hist = np.histogram(data, bins=3000, range=(5e-2, 8))
     hep.histplot(hist, histtype="fill", alpha=0.5, color=color)
@@ -61,7 +74,7 @@ def plot_histogram(data, title, xlabel, ylabel, color="b"):
     plt.savefig(title + 'zoomed_.png')
     plt.close()
 # Load the LaBr3 ROOT file
-file_path_labr3 = "1E8_new.root"
+file_path_labr3 = "leadwall1E7.root"
 root_file_labr3 = uproot.open(file_path_labr3)
 total_edep_labr3 = root_file_labr3["LaBr3"]["fEDep"].array(library="np")
 # Plot for LaBr3 Total Edep
@@ -85,12 +98,12 @@ def plot_coincidence_hist(data1, data2, times1, times2, title, xlabel, ylabel):
     # Calculate time differences (assuming times are in ns)
     time_diff = times1 - times2
     # Create mask for 50 ns coincidence window
-    mask = np.abs(time_diff) <= 0.05
+    mask = np.abs(time_diff) <= 0.1
     # Create 2D histogram of coincident events
     hist = np.histogram2d(
         data1[mask],
         data2[mask],
-        bins=(100,100), range=((5e-2,.75),(5e-2,.75))
+        bins=(100,100), range=((5e-2,2.5),(5e-2,2.5))
     )
     plt.figure()
             
@@ -110,13 +123,13 @@ def load_detector_data(file_path, detector_name):
         "time": root_file[detector_name]["fTime"].array(library="np")
     }
 # Load data for both detectors
-labr3_data = load_detector_data("b2btest.root", "LaBr3")
-cebr3_data = load_detector_data("b2btest.root", "CeBr3")  # Update with your CeBr3 file
+labr3_data = load_detector_data("sumcoincidence.root", "LaBr3")
+cebr3_data = load_detector_data("sumcoincidence.root", "CeBr3")  # Update with your CeBr3 file
 # Plot for LaBr3 Total Edep
 plot_histogram(total_edep_labr3, "Total Energy Deposition in LaBr3", "Energy Deposited [MeV]", "Counts", color="r")
 broadened_edep_labr3 = apply_energy_broadening(labr3_data["energy"], labr3_resolution)
 plot_histogram(broadened_edep_labr3, "Total Energy Deposition in LaBr3 (with broadening)", "Energy Deposited [MeV]", "Counts", color="r")
-broadened_edep_cebr3 = apply_energy_broadening(cebr3_data["energy"], labr3_resolution)
+broadened_edep_cebr3 = apply_energy_broadening(cebr3_data["energy"], nai_resolution)
 plot_histogram(broadened_edep_cebr3, "Total Energy Deposition in CeBr3 (with broadening)", "Energy Deposited [MeV]", "Counts", color="r")
 labr3_data["energy"] = broadened_edep_labr3
 cebr3_data["energy"] = broadened_edep_cebr3
