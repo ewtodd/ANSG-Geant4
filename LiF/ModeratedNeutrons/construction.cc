@@ -17,7 +17,8 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
       0, G4ThreeVector(0., 0., 0.), logicWorld, "physWorld", 0, false, 0, true);
 
   // Define moderator material
-  G4Material *moderatorMaterial = nist->FindOrBuildMaterial("G4_POLYETHYLENE");
+  G4Material *moderatorMaterial =
+      worldMat; // nist->FindOrBuildMaterial("G4_POLYETHYLENE");
 
   G4double modBoxHalfX = 15 * cm;
   G4double modBoxHalfY = 15 * cm;
@@ -42,7 +43,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
   G4Material *leadMaterial = nist->FindOrBuildMaterial("G4_Pb");
   G4double leadWallHalfX = 15 * cm;
   G4double leadWallHalfY = 15 * cm;
-  G4double leadWallHalfZ = 7.5 * cm; // 15cm thick wall (half-length)
+  G4double leadWallHalfZ = 4.5 * cm; // 9cm thick wall (half-length)
   G4double holeRadius = 1.0 * cm;    // Radius of the hole for neutrons
 
   // Position of the lead wall - right after the moderator

@@ -15,11 +15,14 @@ public:
   PrimaryGenerator();
   ~PrimaryGenerator();
 
-  virtual void GeneratePrimaries(G4Event *);
+  virtual void GeneratePrimaries(G4Event *anEvent);
 
 private:
-  G4ParticleGun *fParticleGun;
-  G4double SampleCf252Spectrum(); // Function to sample Cf-252 neutron energy
+  G4ParticleGun *fNeutronGun;
+  G4ParticleGun *fGammaGun;
+  G4double fThermalNeutronFraction;
+
+  G4double SampleCf252Spectrum(); // Keep for potential future use
 };
 
 #endif

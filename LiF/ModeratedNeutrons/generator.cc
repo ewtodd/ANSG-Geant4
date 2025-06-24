@@ -1,34 +1,41 @@
 #include "generator.hh"
 
 PrimaryGenerator::PrimaryGenerator() {
-  G4int numParticles = 1;
-  fParticleGun = new G4ParticleGun(numParticles);
-  fParticleGun->SetParticleDefinition(G4Neutron::Neutron());
+  // Create two separate particle guns
+  fNeutronGun = new G4ParticleGun(1);
+  fGammaGun = new G4ParticleGun(1);
+
+  // Set the fraction of events that are thermal neutrons
+  fThermalNeutronFraction = 0.5; // 50% neutrons, 50% gammas
+
+  // Setup neutron gun
+  fNeutronGun->SetParticleDefinition(G4Neutron::Neutron());
+  fNeutronGun->SetParticleEnergy(0.025 *
+                                 eV); // Thermal energy at room temperature
+  fNeutronGun->SetParticlePosition(G4ThreeVector(0, 0, 0)); // Origin
+  fNeutronGun->SetParticleMomentumDirection(
+      G4ThreeVector(0, 0, 1)); // Forward direction
+
+  // Setup gamma gun
+  fGammaGun->SetParticleDefinition(G4Gamma::Gamma());
+  fGammaGun->SetParticleEnergy(2.223 * MeV); // Neutron capture gamma energy
+  fGammaGun->SetParticlePosition(
+      G4ThreeVector(0, 0, 5 * cm)); // 5cm along z-axis
 }
 
-PrimaryGenerator::~PrimaryGenerator() { delete fParticleGun; }
-
-G4double PrimaryGenerator::SampleCf252Spectrum() {
-  // Watt spectrum parameters for Cf-252
-  const G4double a = 1.025; // MeV
-  const G4double b = 2.926; // MeV^-1
-  const G4double maxP = 1.04;
-
-  G4double E, P;
-  do {
-    E = 15.0 * MeV * G4UniformRand(); // Reduced upper limit
-    P = std::exp(-E / a) * std::sinh(std::sqrt(b * E));
-  } while (G4UniformRand() > P / maxP); // Better efficiency
-
-  return E;
+PrimaryGenerator::~PrimaryGenerator() {
+  delete fNeutronGun;
+  delete fGammaGun;
 }
 
 void PrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
-  fParticleGun->SetParticlePosition(G4ThreeVector(0, 0, 0));
-  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0, 0, 1));
-  //  Sample energy from Cf-252 spectrum
-  G4double energy = SampleCf252Spectrum();
-  fParticleGun->SetParticleEnergy(energy);
-
-  fParticleGun->GeneratePrimaryVertex(anEvent);
+  if (G4UniformRand() < fThermalNeutronFraction) {
+    // Generate thermal neutron at origin with forward direction
+    fNeutronGun->GeneratePrimaryVertex(anEvent);
+  } else {
+    // Generate gamma at (0,0,5cm) with random direction
+    G4ThreeVector randomDirection = G4RandomDirection();
+    fGammaGun->SetParticleMomentumDirection(randomDirection);
+    fGammaGun->GeneratePrimaryVertex(anEvent);
+  }
 }
