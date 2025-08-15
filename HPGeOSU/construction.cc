@@ -17,9 +17,9 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
 
   // Calculate minimal world half dimensions with safety margins
   // After rotation, cylinder axis is along X, so max X extent is halfHeight
-  G4double worldHalfX = halfHeight + 5 * cm;               // 1 cm margin
-  G4double worldHalfY = radius + 5 * cm;                   // 1 cm margin
-  G4double worldHalfZ = zPositionGe + halfHeight + 5 * cm; // 1 cm margin
+  G4double worldHalfX = halfHeight + 1 * cm;               // 1 cm margin
+  G4double worldHalfY = radius + 1 * cm;                   // 1 cm margin
+  G4double worldHalfZ = zPositionGe + halfHeight + 1 * cm; // 1 cm margin
 
   // Create minimal world volume
   G4Box *solidWorld =
@@ -33,6 +33,11 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
   G4cout << "Volume of the Germanium target: "
          << solidGe->GetCubicVolume() / cm3 << " cm3." << G4endl;
 
+// Get volume for output
+  G4cout << "World volume: "
+         << solidWorld->GetCubicVolume() / cm3 << " cm3." << G4endl;
+
+
   G4LogicalVolume *logicWorld =
       new G4LogicalVolume(solidWorld, worldMat, "logicWorld");
   G4VPhysicalVolume *physWorld = new G4PVPlacement(
@@ -44,8 +49,8 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
 
   // Rotate cylinder so its side (curved surface) faces the beam (Z-axis)
   G4RotationMatrix *rotGe = new G4RotationMatrix();
-  rotGe->rotateY(90 * deg); // Rotates cylinder axis from Z to X
-
+  rotGe->rotateZ(90 * deg); // Rotates cylinder axis from Z to X
+  rotGe->rotateY(90 * deg);
   // Place Ge with rotation and position
   G4VPhysicalVolume *physGe =
       new G4PVPlacement(rotGe, G4ThreeVector(0., 0., zPositionGe), logicGe,
