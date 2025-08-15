@@ -27,7 +27,7 @@ void PrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
   fParticleGun->SetParticlePosition(G4ThreeVector(0, 0, 0));
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0, 0, 1));
   //  Sample energy from Cf-252 spectrum
-  G4double energy = SampleCf252Spectrum();
+  G4double energy = 0.025 * eV; // SampleCf252Spectrum();
   fParticleGun->SetParticleEnergy(energy);
 
   fParticleGun->GeneratePrimaryVertex(anEvent);

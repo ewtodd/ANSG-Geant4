@@ -4,7 +4,6 @@
 #include "G4AnalysisManager.hh"
 #include "G4Run.hh"
 #include "G4UserRunAction.hh"
-#include <sstream>
 
 class RunAction : public G4UserRunAction {
 public:

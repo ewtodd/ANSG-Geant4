@@ -16,16 +16,10 @@ public:
   virtual void BeginOfEventAction(const G4Event *);
   virtual void EndOfEventAction(const G4Event *);
 
-  void AddEdepCZT(G4double edep) { fEdepCZT += edep; }
-  void AddEdepHPGe(G4double edep) { fEdepHPGe += edep; }
-  void IncrementNeutronCZT() { fCZTNeutronCount++; }
-  void IncrementNeutronHPGe() { fHPGeNeutronCount++; }
+  void AddEdep(G4double edep) { fEdep += edep; }
 
 private:
-  G4double fEdepCZT;
-  G4double fEdepHPGe;
-  G4int fCZTNeutronCount;
-  G4int fHPGeNeutronCount;
+  G4double fEdep;
 };
 
 #endif
