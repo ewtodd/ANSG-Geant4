@@ -65,11 +65,21 @@ def hpge_resolution(energy_kev):
 
 
 def plot_histogram(data, title, xlabel, ylabel, color="b"):
-    # Energy markers in eV and their conversion to keV
+    # Energy markers and labels
     marker1_keV = 68.754
     marker2_keV = 11.104
     marker3_keV = 10.368
-    diff_keV = abs(marker2_keV - marker1_keV)
+    diff1_keV = abs(marker1_keV - marker2_keV)
+    diff2_kev = diff1_keV - marker2_keV
+    diff3_kev = diff2_kev - marker2_keV
+
+    # Define labels for each line
+    labels = {
+        marker1_keV: "68.75 keV",
+        marker2_keV: "Ge K edge x ray",
+        marker3_keV: "Ga K edge x ray",
+        diff1_keV: "68.75 keV - Ge K edge x ray",
+    }
 
     # Full range histogram
     bins_full = int((1000 - 1e-3) / 0.02)
@@ -80,20 +90,12 @@ def plot_histogram(data, title, xlabel, ylabel, color="b"):
     plt.ylabel(ylabel)
     plt.yscale("log")
     plt.grid(True)
-
-    # Add vertical dashed lines
-    plt.axvline(marker1_keV, color="k", linestyle="--", alpha=0.7)
-    plt.axvline(marker2_keV, color="k", linestyle="--", alpha=0.7)
-    plt.axvline(marker3_keV, color="k", linestyle="--", alpha=0.7)
-    plt.axvline(diff_keV, color="k", linestyle="--", alpha=0.7)
-
     plt.subplots_adjust(top=0.95, bottom=0.2)
     plt.savefig(title + ".png")
     plt.close()
 
-    # Helper function for zoomed histograms with 50 eV (0.05 keV) binning
     def plot_zoom(xmin, xmax, suffix):
-        bins_zoom = int((xmax - xmin) / 0.02)  # 50 eV bins
+        bins_zoom = int((xmax - xmin) / 0.02)  # 20 eV bins
         hist_zoom = np.histogram(data, bins=bins_zoom, range=(xmin, xmax))
         hep.histplot(hist_zoom, histtype="fill", alpha=0.5, color=color)
         hep.histplot(hist_zoom, histtype="step", color=color)
@@ -102,42 +104,133 @@ def plot_histogram(data, title, xlabel, ylabel, color="b"):
         plt.yscale("log")
         plt.grid(True)
 
-        # Add vertical dashed lines only if they fall within the zoom range
-        if xmin <= marker1_keV <= xmax:
-            plt.axvline(marker1_keV, color="k", linestyle="--", alpha=0.7)
-        if xmin <= marker2_keV <= xmax:
-            plt.axvline(marker2_keV, color="k", linestyle="--", alpha=0.7)
-        if xmin <= marker3_keV <= xmax:
-            plt.axvline(marker3_keV, color="k", linestyle="--", alpha=0.7)
-        if xmin <= diff_keV <= xmax:
-            plt.axvline(diff_keV, color="k", linestyle="--", alpha=0.7)
+        # Define colors for each marker
+        colors = {
+            marker1_keV: "red",
+            marker2_keV: "orange",
+            marker3_keV: "green",
+            diff1_keV: "purple",
+        }
 
+        # Add vertical dashed lines only if within zoom range
+        y_min_zoom, y_max_zoom = plt.ylim()
+        for marker, label in labels.items():
+            if xmin <= marker <= xmax:
+                # Get matching color for this marker
+                line_color = colors[marker]
+
+                if marker == marker3_keV:
+                    x_offset = -0.4
+                elif marker == marker1_keV:
+                    x_offset = -0.7
+                elif marker == marker2_keV:
+                    x_offset = 2.1
+                elif marker == diff1_keV:
+                    x_offset = 1.5
+                else:
+                    x_offset = 1.5
+
+                plt.axvline(marker, color=line_color, linestyle="--", linewidth=4)
+                plt.text(
+                    marker + x_offset,
+                    y_min_zoom * 1.25,
+                    label,
+                    rotation=90,
+                    va="bottom",
+                    ha="right",
+                    fontsize=40,
+                    bbox=dict(
+                        facecolor="white", edgecolor=line_color, boxstyle="round"
+                    ),
+                )
         plt.subplots_adjust(top=0.95, bottom=0.2)
         plt.savefig(title + suffix + ".png")
         plt.close()
 
-    # Zoomed histograms with consistent 50 eV binning
+    # Zoomed histograms
     plot_zoom(1e-3, 100, "_zoomed1")  # 1 mkeV to 100 keV
     plot_zoom(3, 17, "_zoomed2")  # 3 to 17 keV
     plot_zoom(50, 70, "_zoomed3")  # 50 to 70 keV
+    plot_zoom(30, 70, "_zoomed4")  # 50 to 70 keV
+
+
+def plot_histogram_no_markers(data, title, xlabel, ylabel, color="b"):
+    # Energy markers and labels
+    marker1_keV = 68.754
+    marker2_keV = 11.104
+    marker3_keV = 10.368
+    diff1_keV = abs(marker1_keV - marker2_keV)
+    diff2_kev = diff1_keV - marker2_keV
+    diff3_kev = diff2_kev - marker2_keV
+
+    # Define labels for each line
+    labels = {
+        marker1_keV: "68.75 keV",
+        marker2_keV: "Ge K edge x ray",
+        marker3_keV: "Ga K edge x ray",
+        diff1_keV: "68.75 keV - Ge K edge x ray",
+    }
+    # Full range histogram
+    bins_full = int((1000 - 1e-3) / 0.02)
+    hist = np.histogram(data, bins=bins_full, range=(1e-3, 1000))
+    hep.histplot(hist, histtype="fill", alpha=0.5, color=color)
+    hep.histplot(hist, histtype="step", color=color)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.yscale("log")
+    plt.grid(True)
+    plt.subplots_adjust(top=0.95, bottom=0.2)
+    plt.savefig(title + ".png")
+    plt.close()
+
+    def plot_zoom(xmin, xmax, suffix):
+        bins_zoom = int((xmax - xmin) / 0.02)  # 20 eV bins
+        hist_zoom = np.histogram(data, bins=bins_zoom, range=(xmin, xmax))
+        hep.histplot(hist_zoom, histtype="fill", alpha=0.5, color=color)
+        hep.histplot(hist_zoom, histtype="step", color=color)
+        plt.xlabel(xlabel)
+        plt.ylabel(ylabel)
+        plt.yscale("log")
+        plt.grid(True)
+
+        # Define colors for each marker
+        colors = {
+            marker1_keV: "black",
+            marker2_keV: "black",
+            marker3_keV: "black",
+            diff1_keV: "black",
+        }
+
+        # Add vertical dashed lines only if within zoom range
+        y_min_zoom, y_max_zoom = plt.ylim()
+        for marker, label in labels.items():
+            if xmin <= marker <= xmax:
+                # Get matching color for this marker
+                line_color = colors[marker]
+                plt.axvline(marker, color=line_color, linestyle="--", linewidth=4)
+                plt.subplots_adjust(top=0.95, bottom=0.2)
+        plt.savefig(title + suffix + ".png")
+        plt.close()
+
+    # Zoomed histograms
+    plot_zoom(1e-3, 100, "_zoomed1_nomarkers")  # 1 mkeV to 100 keV
+    plot_zoom(3, 17, "_zoomed2_nomarkers")  # 3 to 17 keV
+    plot_zoom(50, 70, "_zoomed3_nomarkers")  # 50 to 70 keV
+    plot_zoom(30, 70, "_zoomed4")  # 50 to 70 keV
 
 
 file_path = "5E8.root"
 root_file = uproot.open(file_path)
 total_edep = root_file["Energy"]["fEdep"].array(library="np")
-
-# Plot for LaBr3 Total Edep
-plot_histogram(
-    total_edep,
-    "Total Energy Deposition in HPGe",
-    "Energy Deposited (keV)",
-    "Counts / 20 eV",
-    color="r",
-)
-
-# Apply Gaussian broadening for LaBr3
 broadened_edep = apply_energy_broadening(total_edep, hpge_resolution)
 plot_histogram(
+    broadened_edep,
+    "Total Energy Deposition in HPGe (with broadening)",
+    "Energy Deposited (keV)",
+    "Counts / 20 eV",
+    color="b",
+)
+plot_histogram_no_markers(
     broadened_edep,
     "Total Energy Deposition in HPGe (with broadening)",
     "Energy Deposited (keV)",
