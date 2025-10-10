@@ -26,7 +26,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
 
   // Define lead wall material and dimensions
 
-  G4Material *leadMaterial = nist->FindOrBuildMaterial("G4_Pb");
+  G4Material *leadMaterial = nist->FindOrBuildMaterial("G4_AIR");
 
   // Calculate position offset for detectors (after the lead wall)
 
