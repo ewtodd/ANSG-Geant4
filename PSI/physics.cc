@@ -1,14 +1,20 @@
 #include "physics.hh"
 
 PhysicsList::PhysicsList() {
-  RegisterPhysics(new G4EmStandardPhysics());
-  RegisterPhysics(new G4EmExtraPhysics());
-  RegisterPhysics(new G4DecayPhysics());
+  SetVerboseLevel(0);
 
-  G4EmParameters *param = G4EmParameters::Instance();
-  param->SetAugerCascade(true);
-  param->SetDeexcitationIgnoreCut(true);
-  param->SetFluo(true);
-  param->SetAuger(true);
+  // Elastic collisions
+  RegisterPhysics(new G4HadronElasticPhysicsHP());
+
+  // Inelastic physics
+  RegisterPhysics(new G4HadronPhysicsQGSP_BIC_AllHP());
+
+  // EM physics
+  RegisterPhysics(new G4EmStandardPhysics_option4());
+
+  // Radioactive decay
+  RegisterPhysics(new G4DecayPhysics());
+  RegisterPhysics(new G4RadioactiveDecayPhysics());
 }
+
 PhysicsList::~PhysicsList() {}

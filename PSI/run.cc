@@ -2,9 +2,21 @@
 
 RunAction::RunAction() {
   G4AnalysisManager *man = G4AnalysisManager::Instance();
-  man->CreateNtuple("Energy", "Energy");
-  man->CreateNtupleDColumn("fEdep");
+
+  man->CreateNtuple("Ge", "Ge");
+  man->CreateNtupleDColumn("fEDep");
+  man->CreateNtupleDColumn("fTime");
   man->FinishNtuple(0);
+
+  man->CreateNtuple("CdTe", "CdTe");
+  man->CreateNtupleDColumn("fEDep");
+  man->CreateNtupleDColumn("fTime");
+  man->FinishNtuple(1);
+
+  man->CreateNtuple("NaI", "NaI");
+  man->CreateNtupleDColumn("fEDep");
+  man->CreateNtupleDColumn("fTime");
+  man->FinishNtuple(1);
 }
 RunAction::~RunAction() {}
 void RunAction::BeginOfRunAction(const G4Run *run) {
@@ -18,5 +30,5 @@ void RunAction::EndOfRunAction(const G4Run *) {
   G4AnalysisManager *man = G4AnalysisManager::Instance();
 
   man->Write();
-  man->CloseFile("");
+  man->CloseFile("output.root");
 }

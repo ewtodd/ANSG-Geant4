@@ -3,7 +3,6 @@
 
 #include "G4Step.hh"
 #include "G4UserSteppingAction.hh"
-
 #include "construction.hh"
 #include "event.hh"
 

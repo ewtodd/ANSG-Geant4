@@ -2,8 +2,8 @@
 #include "construction.hh"
 
 // include physics files
+#include "QGSP_BIC_HP.hh"
 #include "physics.hh"
-
 // include actions
 #include "action.hh"
 
@@ -14,11 +14,9 @@
 #include "G4UImanager.hh"
 #include "G4VisExecutive.hh"
 #include "G4VisManager.hh"
-#include "TROOT.h"
 
 int main(int argc, char **argv) {
-  // Enable ROOT thread safety - add this at the start of main
-  ROOT::EnableThreadSafety();
+
 #ifdef G4MULTITHREADED
   G4MTRunManager *runManager = new G4MTRunManager();
 #else
@@ -59,7 +57,6 @@ int main(int argc, char **argv) {
     G4String fileName = argv[1];
     uiManager->ApplyCommand(command + fileName);
   }
-
   delete visManager;
   delete runManager;
 
